@@ -17,11 +17,8 @@ export class BullBoardRootModule implements NestModule {
   }
 
   configure(consumer: MiddlewareConsumer): any {
-    const globalPrefix = this.applicationConfig.getGlobalPrefix();
-    const prefix = `${globalPrefix}${this.options.route}`.replace(
-      /^\/?([^\/]+(?:\/[^\/]+)*)\/?$/,
-      '/$1'
-    );
+    const addForwardSlash = (path) => path.startsWith('/') || path === '' ? path : `/${path}`;
+    const prefix = addForwardSlash(this.applicationConfig.getGlobalPrefix() + this.options.route);
 
     this.adapter.setBasePath(prefix);
 
