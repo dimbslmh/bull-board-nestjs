@@ -27,8 +27,8 @@ let BullBoardRootModule = BullBoardRootModule_1 = class BullBoardRootModule {
         this.options = options;
     }
     configure(consumer) {
-        const globalPrefix = this.applicationConfig.getGlobalPrefix();
-        const prefix = `${globalPrefix}${this.options.route}`.replace(/^\/?([^\/]+(?:\/[^\/]+)*)\/?$/, '/$1');
+        const addForwardSlash = (path) => (path.startsWith('/') || path === '' ? path : `/${path}`);
+        const prefix = addForwardSlash(this.applicationConfig.getGlobalPrefix() + this.options.route);
         this.adapter.setBasePath(prefix);
         if ((0, bull_board_util_1.isExpressAdapter)(this.adapter)) {
             return consumer
